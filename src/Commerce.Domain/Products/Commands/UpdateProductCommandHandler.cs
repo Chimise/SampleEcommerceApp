@@ -16,17 +16,15 @@ namespace Commerce.Domain.Products.Commands
             _productRepository = productRepository;
         }
 
-        public Task ExecuteAsync(UpdateProduct command)
+        public async Task ExecuteAsync(UpdateProduct command)
         {
-            var product = _productRepository.GetById(command.ProductId);
+            var product = await _productRepository.GetById(command.ProductId);
 
             product.Name = command.Name ?? product.Name;
             product.Description = command.Description ?? product.Description;
             product.UnitPrice = command.UnitPrice ?? product.UnitPrice;
             
             _productRepository.Save(product);
-
-            return Task.CompletedTask;
         }
     }
 }

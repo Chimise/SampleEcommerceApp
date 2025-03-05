@@ -31,9 +31,9 @@ namespace Commerce.Api.Controllers
 
 
         [HttpGet("/api/products/")]
-        public ActionResult<GenericResponse<List<ProductDto>>> GetProducts()
+        public async Task<ActionResult<GenericResponse<List<ProductDto>>>> GetProducts()
         {
-            var products = _productRepository.GetAll();
+            var products = await _productRepository.GetAll();
             var returnedProducts = products.Select(prod => 
             new ProductDto(prod.Id, prod.Name, prod.Description, prod.IsFeatured)
             ).ToList();

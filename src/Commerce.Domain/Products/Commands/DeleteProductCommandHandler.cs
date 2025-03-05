@@ -18,10 +18,9 @@ namespace Commerce.Domain.Products.Commands
             _productRepository = productRepository;
         }
         
-        public Task ExecuteAsync(DeleteProduct command) 
+        public async Task ExecuteAsync(DeleteProduct command) 
         {
-            _productRepository.Delete(command.ProductId);
-            return Task.CompletedTask;
+            await _productRepository.Delete(command.ProductId);
         }
     }
 }

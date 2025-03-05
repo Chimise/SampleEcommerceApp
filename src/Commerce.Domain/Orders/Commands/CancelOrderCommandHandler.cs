@@ -22,15 +22,12 @@ namespace Commerce.Domain.Orders.Commands
             _orderRepository = orderRepository;
             _handler = handler;
         }
-        public Task ExecuteAsync(CancelOrder command)
+        public async Task ExecuteAsync(CancelOrder command)
         {
-            var order = _orderRepository.GetById(command.OrderId);
+            var order = await _orderRepository.GetById(command.OrderId);
             order.Cancel();
             _orderRepository.Save(order);
-
             _handler.Handle(new OrderCancelled(command.OrderId));
-
-            return Task.CompletedTask;
         }
     }
 }

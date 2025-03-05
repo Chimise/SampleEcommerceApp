@@ -24,7 +24,7 @@ namespace Commerce.Domain.Orders.Events
 
         public void Handle(OrderCancelled e)
         {
-            Order order = _orderRepository.GetById(e.OrderId);
+            Order order = _orderRepository.GetById(e.OrderId).GetAwaiter().GetResult();
             if(order.Payed)
             {
                 _billingService.NotifyAccounting(e.OrderId, "RequestRefund");
@@ -33,7 +33,7 @@ namespace Commerce.Domain.Orders.Events
 
         public void Handle(OrderPayed e)
         {
-            Order order = _orderRepository.GetById(e.OrderId);
+            Order order = _orderRepository.GetById(e.OrderId).GetAwaiter().GetResult();
             if(order.Cancelled)
             {
                 _billingService.NotifyAccounting(e.OrderId, "RequestRefund");
