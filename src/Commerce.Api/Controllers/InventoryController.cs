@@ -22,10 +22,10 @@ namespace Commerce.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<GenericResponse<IEnumerable<DisplayProduct>>> GetProducts()
+        public async Task<ActionResult<GenericResponse<IEnumerable<DisplayProduct>>>> GetProducts()
         {
-            var productInventories = _productRepository.GetAll()
-                .Select(prod => new DisplayProduct(prod.Name, prod.Id.ToString()));
+            var allProducts = await _productRepository.GetAll();
+            var productInventories = allProducts.Select(prod => new DisplayProduct(prod.Name, prod.Id.ToString()));
 
             return new OkObjectResult(GenericResponse<IEnumerable<DisplayProduct>>.Ok(productInventories));
         }

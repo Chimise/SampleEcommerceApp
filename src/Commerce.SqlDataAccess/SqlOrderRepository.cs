@@ -15,9 +15,11 @@ namespace Commerce.SqlDataAccess
             ArgumentNullException.ThrowIfNull(context, nameof(context));
             _context = context;
         }
-        public Order GetById(Guid id)
+        public async Task<Order> GetById(Guid id)
         {
-           return _context.Orders.Find(id) ?? throw new KeyNotFoundException($"No Order with Id {id} was found");
+            var order = await _context.Orders.FindAsync(id);
+            if(order == null) throw new KeyNotFoundException($"No Order with Id {id} was found");
+            return order;
         }
 
         public void Save(Order order) 

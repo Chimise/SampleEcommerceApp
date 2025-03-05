@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Commerce.Domain.Products;
 using Commerce.Domain.Products.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Commerce.SqlDataAccess
 {
@@ -17,9 +18,13 @@ namespace Commerce.SqlDataAccess
             _dbContext = dbContext;
         }
 
-        public Product GetById(Guid id)
+        public async Task<Product> GetById(Guid id)
         {
-            return _dbContext.Products.Find(id) ?? throw new KeyNotFoundException($"No product with {id} was found");
+            var product = await _dbContext.Products.FindAsync(id);
+
+            if(product == null) throw new KeyNotFoundException($"No product with {id} was found");
+
+            return product;
         }
 
         public void Save(Product product)
@@ -31,14 +36,14 @@ namespace Commerce.SqlDataAccess
                 _dbContext.Products.Add(product);
             }
         }
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            var product = this.GetById(id);
+            var product = await this.GetById(id);
             _dbContext.Remove(product);
         }
-        public Product[] GetAll()
+        public async Task<Product[]> GetAll()
         {
-            return _dbContext.Products.ToArray();
+            return await _dbContext.Products.ToArrayAsync();
         }
     }
 }

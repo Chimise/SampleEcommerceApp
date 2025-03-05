@@ -8,7 +8,7 @@ namespace Commerce.Domain.Orders.Repositories
 {
     public interface IOrderRepository
     {
-        Order GetById(Guid id);
+        Task<Order> GetById(Guid id);
         void Save(Order order);
     }
 }
