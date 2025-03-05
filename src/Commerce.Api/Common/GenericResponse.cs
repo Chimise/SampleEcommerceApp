@@ -41,12 +41,12 @@ namespace Commerce.Api.Common
 
     public  class GenericResponse : GenericResponse<object>
     {
-        private GenericResponse(object? data, string? successMessage) : base(data, successMessage)
+        public GenericResponse(object? data, string? successMessage) : base(data, successMessage)
         {
 
         }
 
-        private GenericResponse(string[] errors) : base(errors)
+        public GenericResponse(string[] errors) : base(errors)
         {
 
         }
