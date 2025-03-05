@@ -23,16 +23,12 @@ namespace Commerce.Domain.Orders.Commands
             _handler = handler;
         }
 
-        public Task ExecuteAsync(ApproveOrder command)
+        public async Task ExecuteAsync(ApproveOrder command)
         {
-            var order = _orderRepository.GetById(command.OrderId);
+            var order = await _orderRepository.GetById(command.OrderId);
             order.Approve();
             _orderRepository.Save(order);
-
             _handler.Handle(new OrderApproved(command.OrderId));
-
-            return Task.CompletedTask;
-            
         }
     }
 }
