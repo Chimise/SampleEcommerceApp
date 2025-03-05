@@ -9,7 +9,7 @@ using Commerce.Domain.ProductInventories.Commands;
 
 namespace Commerce.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/inventory")]
     [ApiController]
     public class AdjustInventoryController : ControllerBase
     {

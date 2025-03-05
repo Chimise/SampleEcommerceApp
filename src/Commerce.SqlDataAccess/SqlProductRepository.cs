@@ -26,7 +26,7 @@ namespace Commerce.SqlDataAccess
         {
             ArgumentNullException.ThrowIfNull(product, nameof(product));
 
-            if(!_dbContext.IsNew(product))
+            if(_dbContext.IsNew(product))
             {
                 _dbContext.Products.Add(product);
             }
