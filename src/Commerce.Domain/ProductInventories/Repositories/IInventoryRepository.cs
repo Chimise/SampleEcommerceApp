@@ -9,7 +9,7 @@ namespace Commerce.Domain.ProductInventories.Repositories
 {
     public interface IInventoryRepository
     {
-        Task<ProductInventory> GetByIdOrNull(Guid id);
-        Task Save(ProductInventory productInventory);
+        Task<ProductInventory?> GetByIdOrNull(Guid id);
+        void Save(ProductInventory productInventory);
     }
 }

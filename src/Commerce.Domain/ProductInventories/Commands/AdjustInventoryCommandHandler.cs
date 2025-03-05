@@ -12,15 +12,15 @@ namespace Commerce.Domain.ProductInventories.Commands
     public class AdjustInventoryCommandHandler: ICommandHandler<AdjustInventoryCommand>
     {
         private readonly IInventoryRepository _repository;
-        private readonly IEventHandler<InventoryAdjusted> _handler;
+        private readonly IEventHandler<InventoryAdjusted> _inventoryAdjuster;
 
-        public AdjustInventoryCommandHandler(IInventoryRepository repository, IEventHandler<InventoryAdjusted> handler)
+        public AdjustInventoryCommandHandler(IInventoryRepository repository, IEventHandler<InventoryAdjusted> inventoryAdjuster)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
-            ArgumentNullException.ThrowIfNull(handler, nameof(handler));
+            ArgumentNullException.ThrowIfNull(inventoryAdjuster, nameof(inventoryAdjuster));
 
             _repository = repository;
-            _handler = handler;
+            _inventoryAdjuster = inventoryAdjuster;
         }
 
         public async Task ExecuteAsync(AdjustInventoryCommand command)
@@ -33,8 +33,8 @@ namespace Commerce.Domain.ProductInventories.Commands
             var price = inventory.Quantity + quantityAdjustment;
             if (price < 0) throw new InvalidOperationException($"Can't decrease inventory below zero");
             
-            await this._repository.Save(inventory);
-            this._handler.Handle(new InventoryAdjusted(command.ProductId, quantityAdjustment));
+            this._repository.Save(inventory);
+            this._inventoryAdjuster.Handle(new InventoryAdjusted(command.ProductId, quantityAdjustment));
 
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Commerce.Domain.ProductInventories.Events
 {
-    internal class InventoryNotifier : IEventHandler<InventoryAdjusted>
+    public class InventoryNotifier : IEventHandler<InventoryAdjusted>
     {
         public void Handle(InventoryAdjusted evt)
         {
